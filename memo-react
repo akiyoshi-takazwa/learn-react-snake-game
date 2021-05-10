@@ -82,3 +82,37 @@ const TodoList = () => {
 };
 
 
+===============================================================
+他のファイルからデータを読み込めるように設定する
+===============================================================
+
+export　からコードを記載する
+下記を別ファイルで使用する際は、使いたいファイルでimportさせることで、その関数が使えるようになる
+
+export const initFields = (fieldSize) => {
+    const fields = []
+    for(let i =0; i<fieldSize; i++){
+        const cols = new Array(fieldSize).fill('')
+        fields.push(cols)
+    }
+
+    return fields
+}
+
+
+他にデータを渡したい場合は、
+関数・クラス を作成した後にexport
+
+import React from 'react';
+
+const Button = () => {
+    return(
+        <div className="button">
+            <button>start</button>
+        </div>
+    )
+}
+
+export default Button;
+
+
