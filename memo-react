@@ -1,0 +1,84 @@
+===============================================================
+クラスコンポーネントと関数コンポーネントの違い
+===============================================================
+
+React Hooks API が使われるようになる以前は、
+関数コンポーネントでは状態が持てなかったので、状態を持つコンポーネントはクラスコンポーネントで実装するというような形になっていました。
+
+関数コンポーネントが状態を持てるようになった今、クラスコンポーネントで定義をする理由があまりなく、新しいコンポーネントを関数コンポーネントで実装するようになってきています。
+
+●クラスコンポーネント
+
+ベース             : クラス	
+ステート管理        : インスタンス変数(state) + インスタンスメソッド (setState)
+ライフサイクルフック : 各種ライフサイクルメソッドを使って実装	
+
+ex ) 
+
+class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+    // コンストラクタ
+    // ステートの初期化を行う
+  }
+
+  componentDidMount() {
+    // コンポーネントがマウントされる時に実行する処理を書く
+    // ex. Web APIからデータを取得してくるなど
+  }
+
+  comopnentShouldUpdate(prevProps, prevState) {
+    // propsやステートを比較して、再レンダリング必要な場合はtrueを返す
+    return true
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // 画面の更新が行われた後に実行する処理を書く
+    // NOTE: ここで無条件にsetStateをすると無限注意するので注意
+  }
+
+  componentWillUnmount() {
+    // コンポーネントが消去される際の処理を書く
+    // ex. イベントリスナーの削除など
+  }
+
+  render() {
+    // 最初のレンダリング以降setStateが実行された後などステートが書き換わるタイミングで
+    // 再実行される。
+    return <></> // 任意のコンポーネントをレンダリング
+  }
+
+
+
+●関数コンポーネント
+
+ベース             : 関数	
+ステート管理        : useState を用いたステートフック
+ライフサイクルフック : useEffect を使って実装	
+
+ex ) 
+
+const TodoList = () => {
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    // 初回レンダリング時に実行する処理を書く
+    // comopnentDidMount相当
+
+    return () => {
+      // コンポーネントが削除される時に実行する処理を書く
+      // componentWillUnmount相当
+    };
+  }, []);
+
+  useEffect(() => {
+    // valueが変化した時に行う処理を書く
+    // componentDidUpdate相当
+  }, [value]);
+
+  // stateが変更された時に再度実行される
+  // render相当
+  return <></>;
+};
+
+
