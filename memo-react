@@ -115,4 +115,267 @@ const Button = () => {
 
 export default Button;
 
+===============================================================
+状態とは？
+===============================================================
+例えば、出荷されて販売されるりんごを考えると、りんごには
+
+収穫される前の未熟なりんご
+熟れたが、未収穫のりんご
+収穫されたりんご
+出荷されたりんご
+店頭に並んで販売されたりんご
+というように同じりんごでも様々な状態をもっていることがわかります。
+
+収穫される前でも、収穫された後でも店頭に並んだあとでも同じりんごですが、時間の経過とともに状態をもつようになっていきます。
+
+let apple = {
+  name: 'apple',
+  status: 'unripped', // りんごが木の果実として成った状態。最初の状態。
+};
+
+const rip = (apple) => {
+  // りんごが熟れる
+  apple.status = 'ripped';
+};
+
+const harvest = (apple) => {
+  // りんごを収穫する
+  apple.status = 'harvested';
+};
+
+const ship = (apple) => {
+  // りんごを出荷する
+  apple.status = 'shipped';
+};
+
+const sale = (apple) => {
+  // りんごを販売する
+  apple.status = 'onsale';
+};
+
+rip(apple);
+console.log(apple.status);
+
+harvest(apple);
+console.log(apple.status);
+
+ship(apple);
+console.log(apple.status);
+
+sale(apple);
+console.log(apple.status);
+
+変数や定数といったものはデータであり状態です。
+
+「React を扱う上で状態というものがどういうものなのか？」というのを知っておくことは非常に意義がある
+
+===============================================================
+State と Props の違い
+===============================================================
+
+React では主に State(ステート)と Props(プロップス)を状態として扱う
+
+自分自身の状態が State
+親から渡ってくる状態が Props
+
+コンポーネントの例
+
+const TextField = (props /* props ・・・ 親からわかってくる状態 */) => {
+  const [value, setValue] = useState(''); // state・・・コンポーネント自身で保持する状態
+
+  const onChange = (e) => setValue(e.target.value);
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      placeholder={props.placeholder}
+    />
+  );
+};
+
+関数コンポーネントの引数部分でわたってくる状態を props
+コンポーネント内で保持する状態を state
+
+
+
+===============================================================
+レンダリングの仕組み
+===============================================================
+
+const AppleStatus = ({ status }) => {
+  return <h1>{status}</h1>;
+};
+
+説明のためにシンプルなコンポーネントにしていますが、これらをよく見るとstatusという状態を元にビュー（Web ページ）を表現していることになります。
+
+このAppleStatusコンポーネントはもしりんごが未熟の状態であれば、引数からunrippedという状態を表す文字列を受け取り、画面にunrippedというりんごの状態を表示します。
+
+ここでもし、先の例のようにりんごが熟した場合りんごの状態は rippedになり、先に表示しておいたunrippedという情報は古くなってしまうので、また新たに状態を渡して新しいビューを作る必要があります。
+
+このときに行われるのが React でよく聞く再レンダリング（再描画）という仕組みで、rippedという新しい状態をもとにビューを構築していきます。
+
+この状態遷移とレンダリングの関係から React ではレンダリングが走るタイミングが決まっていて、そのタイミングは、
+
+props が変更された場合
+state が変更された場合      のどちらかになります。
+
+React におけるステートの更新方法は二種類
+- 状態を元にビューを表現している
+- state か props に変更が入ったタイミングでレンダリング（画面更新）が走る
+
+===============================================================
+状態（ステート）の更新方法
+===============================================================
+
+React におけるステートの更新方法は二種類あります。
+
+(Hooks API) useState を使って得たステートのための更新関数を使う方法
+(従来の方法) クラスコンポーネントで setState を使ったステートの更新方法
+
+Hooks API
+
+const Couter = () => {
+  const [count, setCount] = useState(0); // stateを宣言
+  const increment = () => setCount(count + 1); // incrementボタンが押された時の関数。setCountを使ってステートを更新
+  return (
+    <div>
+      <h1> count: {count}</h1>
+      <button onClick={increment}>increment</button>
+    </div>
+  );
+};
+
+===============================================================
+props の状態を更新する方法（子から親コンポーネントの状態の更新)
+===============================================================
+
+React では、これまで説明したようにステートの変更の方法が制限されているのですが、実装の中で親コンポーネントのステート（props)を更新したい場合は、
+
+setStateか更新フックを含んだ関数を子の関数に渡す
+
+という形で実装します。
+
+const Todo = () => {
+  const [value, setValue] = useState('');
+  const [todos, setTodos] = useState([]);
+
+  const onChangeText = (e) => setValue(e.target.value);
+  const add = () => {
+    setTodos([...todos, value]);
+    setValue('');
+  };
+  const remove = (targetIndex) => {
+    // XXX: Todoの配列から要素を削除する関数を宣言
+    setTodos(todos.filter((_item, index) => index !== targetIndex));
+  };
+  return (
+    <div>
+      <div>
+        <input type="text" value={value} onChange={onChangeText} />
+        <button onClick={add}>submit</button>
+      </div>
+      <TodoList todos={todos} onRemove={remove} />
+    </div>
+  );
+};
+
+const TodoList = ({ todos, onRemove }) => {
+  return (
+    <ul>
+      {todos.map((item, index) => {
+        const _onRemove = () => onRemove(index); // XXX: onRemoveを使ってTodoのリストを更新
+        return (
+          <li key={item} onRemove={_onRemove}>
+            {item}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+
+<TodoList todos={todos} onRemove={remove} />
+
+
+===============================================================
+useStateの使い方
+===============================================================
+
+const [状態名(ex. count), 更新関数名(ex. setCount)] = useState(初期値(ex. 0))
+
+フック関数は React の関数のトップレベルで宣言を行うようにしてください。
+
+トップレベルとは、if 文やループ文を含まない関数直下の領域になるので、フックをループや条件分岐内、あるいはネストされた関数内で呼び出してはいけません。
+
+【NG 例 1】React 関数の外で使用している
+
+import React, { useState } from 'react';
+import Navigation from './components/Navigation'
+import Field from './components/Field'
+import Button from './components/Button'
+import ManipulationPanel from './components/ManipulationPanel'
+import { initFields } from './utils'
+
+  const fields = initFields(35)
+  const initialValues = initFields(35)
+
+  const [fields, setFields] = useState(initialValues)
+
+function App() {
+  return (
+    <div className="App">
+      <header className="header">
+
+
+【NG 例 2】 ループや条件文の中で使用している
+
+import React, { useState } from 'react';
+import Navigation from './components/Navigation'
+import Field from './components/Field'
+import Button from './components/Button'
+import ManipulationPanel from './components/ManipulationPanel'
+import { initFields } from './utils'
+
+  const fields = initFields(35)
+  const initialValues = initFields(35)
+
+function App() {
+   if(!fields) {
+     const [fields, setFields] = useState(initialValues)
+   }
+   return (
+     <div className="App">
+       <header className="header">
+
+===============================================================
+useEffectの使い方
+===============================================================
+
+useEffect(レンダリング後に実行される関数（コールバック）, 依存変数の配列)
+
+useEffectのコールバックは基本的に初回のレンダリング時および毎回のレンダリング時に実行されるようになっています。
+
+初回のレンダリングに一度だけ実行したいので、この配列を空にしてあります。
+useEffect(() => {
+  setPosition(initialPosition);
+}, []);
+
+これはクラスコンポーネントにおけるcomponentDidMountと同様の操作になります。
+
+関数コンポーネントを書く時にcomponentDidMount相当の処理を実装する時はこちらのように第二引数を空にしたuseEffectを使うと良い
+
+
+===============================================================
+setIntervalの使い方
+===============================================================
+
+setInterval(一定間隔ごとに実行する関数（コールバック）, インターバルの長さ(ms))
+
+
+
+
+
 
