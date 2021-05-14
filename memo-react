@@ -443,3 +443,24 @@ hoge = { a: 'a', b: 'b' };
 fuga = { ...hoge, c: 'c' };
 
 console.log(fuga); // => { a: 'a', b: 'b', c: 'c' }
+
+
+
+===============================================================
+[条件式] && [任意の処理]
+===============================================================
+
+[条件式] && [任意の処理]のように&&で繋ぐと前の条件式がtrueの時だけ後ろの処理が実行されるようになります。
+
+ex
+const Button = ({ status, onStart, onStop, onRestart }) => {
+    return(
+        <div className="button">
+            { status === "gameover" && <button onClick={onRestart}>gameover</button> }
+            { status === "init" && <button onClick={onStart}>start</button> }
+            { status === "suspended" && <button onClick={onStart}>start</button> }
+            { status === "playing" && <button onClick={onStop}>stop</button> }
+        </div>
+    )
+}
+

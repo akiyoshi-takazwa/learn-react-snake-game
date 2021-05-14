@@ -97,6 +97,8 @@ function App() {
 
   const onStart = () => setStatus(GameStatus.playing)
 
+  const onStop = () => setStatus(GameStatus.suspended)
+
   const onRestart = () => {
     timer = setInterval(() => {
       setTick(tick => tick + 1)
@@ -168,7 +170,12 @@ function App() {
         <Field fields={fields} />
       </main>
       <footer className="footer">
-        <Button status={status} onStart={onStart} onRestart={onRestart}/>
+        <Button
+           status={status}
+           onStop={onStop}
+           onStart={onStart}
+           onRestart={onRestart}
+         />
         <ManipulationPanel onChange={onChangeDirection}/>
       </footer>
     </div>
