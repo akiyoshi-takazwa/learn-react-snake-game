@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-snake-game/static/css/main.ca47218e.chunk.css",
-    "main.js": "/react-snake-game/static/js/main.f2e11269.chunk.js",
-    "main.js.map": "/react-snake-game/static/js/main.f2e11269.chunk.js.map",
+    "main.js": "/react-snake-game/static/js/main.67b7835b.chunk.js",
+    "main.js.map": "/react-snake-game/static/js/main.67b7835b.chunk.js.map",
     "runtime-main.js": "/react-snake-game/static/js/runtime-main.2a948477.js",
     "runtime-main.js.map": "/react-snake-game/static/js/runtime-main.2a948477.js.map",
     "static/js/2.63860383.chunk.js": "/react-snake-game/static/js/2.63860383.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.2a948477.js",
     "static/js/2.63860383.chunk.js",
     "static/css/main.ca47218e.chunk.css",
-    "static/js/main.f2e11269.chunk.js"
+    "static/js/main.67b7835b.chunk.js"
   ]
 }
