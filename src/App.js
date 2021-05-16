@@ -1,9 +1,9 @@
 import React from 'react';
-import Navigation from './components/Navigation';
-import Field from './components/Field';
-import Button from './components/Button';
-import ManipulationPanel from './components/ManipulationPanel';
-import useSnakeGame from './hooks/useSnakeGame';
+import Navigation from './components/Navigation'
+import Field from './components/Field'
+import Button from './components/Button'
+import ManipulationPanel from './components/ManipulationPanel'
+import useSnakeGame from './hooks/useSnakeGame'
 
 function App() {
   const {
@@ -16,7 +16,7 @@ function App() {
     status,
     updateDirection,
     updateDifficulty,
-  } = useSnakeGame();
+  } = useSnakeGame()
 
   return (
     <div className="App">

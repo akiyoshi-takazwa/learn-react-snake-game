@@ -7,7 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* borderを含めた幅で要素の幅が計算されるように */
 *,
 *:before,
 *:after {
@@ -15,7 +14,7 @@ body {
 }
 
 .App {
-  max-width: calc(9px * 35 + 1px * 2); /* (マスの幅) * 個数 + (ボーダーの幅) * 本数 */
+  max-width: calc(9px * 35 + 1px * 2);
   text-align: center;
 }
 
@@ -23,7 +22,6 @@ body {
   visibility: hidden !important;
 }
 
-/* 要素が真ん中によるようにフレックスボックスを設定 */
 #root {
   display: flex;
   justify-content: center;
@@ -35,7 +33,6 @@ body {
 .dots {
   height: 9px;
   width: 9px;
-  /* border: 1px solid #0f1d1d; */
   background: #0f1d1d;
 }
 
