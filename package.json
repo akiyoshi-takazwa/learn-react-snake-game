@@ -2,7 +2,7 @@
   "name": "learn-react-snake-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://akiyoshi-takazwa.github.io/react-snake-game",
+  "homepage": "https://akiyoshi-takazwa.github.io/learn-react-snake-game",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
