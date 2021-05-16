@@ -11,12 +11,10 @@ export const getFoodPostion = (fieldSize, excludes) => {
 }
 
 export const initFields = (fieldSize, snake) => {
-  const fields = []; // 新しい配列を作成
-  // フィールドの縦の長さを作る分だけループ
+  const fields = []; 
+  
   for (let i = 0; i < fieldSize; i++) {
-    // フィールドの列の長さ分の配列を作成
     const cols = new Array(fieldSize).fill('');
-    // フィールドの列を配列の追加
     fields.push(cols);
   }
   fields[snake.y][snake.x] = 'snake'
@@ -24,17 +22,15 @@ export const initFields = (fieldSize, snake) => {
   const food = getFoodPostion(fieldSize, [snake])
   fields[food.y][food.x] = 'food'
 
-  return fields; // 作成した配列を返却
+  return fields;
 };
 
 export const isCollision = (fieldSize, position) => {
   if (position.y < 0 || position.x < 0) {
-    // x, y のどちらかの座標がマイナスの値 の時
     return true;
   }
 
   if (position.y > fieldSize - 1 || position.x > fieldSize - 1) {
-    // x, y のどちらかの座標がフィールドサイズを超えてしまっている時
     return true;
   }
 
