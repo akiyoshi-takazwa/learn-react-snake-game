@@ -2,6 +2,10 @@
 
 https://akiyoshi-takazwa.github.io/learn-react-snake-game/
 
+## React.js についてまとめ
+
+https://docs.google.com/document/d/1xR1Y6wzjJr3KA_kYMstxuNObKiyveS1VyuTNQTIGRWU/edit#heading=h.4quc6v6laat2
+
 
 ## github-pages詳細は下記リポジトリ参考
 
